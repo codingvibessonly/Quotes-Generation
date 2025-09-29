@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Based Quote Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #0a0f1f; /* Deep dark background */
+      overflow: hidden;
+      color: white;
+    }
+
+    /* Stars Animation */
+    .stars {
+      width: 100%;
+      height: 100%;
+      background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      animation: moveStars 60s linear infinite;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: -10000px 5000px; }
+    }
+
+    /* Fade Animation */
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center font-sans relative">
+
+  <!-- Animated Star Background -->
+  <div class="stars"></div>
+
+  <!-- Quote Card -->
+  <div class="bg-white text-black shadow-2xl rounded-2xl p-8 w-full max-w-md text-center relative z-10 transform transition duration-500 hover:scale-105">
+    <h1 class="text-3xl font-extrabold text-indigo-600 mb-6 tracking-wide">✨ Quote Generator</h1>
+    
+    <!-- Input Section -->
+    <input 
+      id="commandInput" 
+      type="text" 
+      placeholder="Type a command (success, life, motivation)" 
+      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 mb-4"
+    >
+    
+    <button 
+      onclick="generateQuote()" 
+      class="bg-indigo-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-indigo-700 transform hover:scale-110 transition duration-300 mb-6"
+    >
+      🔍 Get Quote
+    </button>
+
+    <!-- Quote Display -->
+    <p id="quote" class="text-lg text-gray-700 italic fade-in">
+      "Enter a keyword to get your quote!"
+    </p>
+  </div>
+
+  <script>
+    const quotes = {
+      success: [
+        "Success doesn’t just find you. You have to go out and get it. 💪",
+        "Don’t stop until you’re proud.",
+        "Success is the sum of small efforts repeated day in and day out."
+      ],
+      motivation: [
+        "Believe in yourself and all that you are. 🌟",
+        "Push yourself, because no one else is going to do it for you.",
+        "Difficult roads often lead to beautiful destinations."
+      ],
+      life: [
+        "Life is 10% what happens to us and 90% how we react to it.",
+        "Enjoy the little things in life, because one day you will look back and realize they were the big things.",
+        "Your time is limited, so don’t waste it living someone else’s life."
+      ]
+    };
+
+    function generateQuote() {
+      const command = document.getElementById("commandInput").value.toLowerCase().trim();
+      const quoteElement = document.getElementById("quote");
+
+      if (quotes[command]) {
+        const randomIndex = Math.floor(Math.random() * quotes[command].length);
+        quoteElement.textContent = quotes[command][randomIndex];
+      } else {
+        quoteElement.textContent = "❌ No quotes found. Try: success, motivation, life";
+      }
+
+      quoteElement.classList.remove("fade-in");
+      void quoteElement.offsetWidth;
+      quoteElement.classList.add("fade-in");
+    }
+  </script>
+
+</body>
+</html>
